@@ -1,0 +1,17 @@
+System Name,Arguments,Emu Path,Emu EXE,System Image,Rom Path,File Mask(s)
+Casio Loopy,casloopy -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\CassioLoopy.png,D:\MAME\roms\casloopy,zip|*.zip|bin|*.bin
+Aamber Pegasus,pegasus -rom1 ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\pegasus.png,D:\MAME\roms\pegasus,zip|*.zip|bin|*.bin
+APF Imagination Machine,apfimag -cart basic -cass ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\apf_mp1000.png,D:\MAME\roms\apfimag_cass,zip|*.zip|wav|*.wav
+Apogee BK-01,apogee -cass ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\apogee,zip|*.zip|rka|*.rka
+Casio PV-2000,pv2000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\pv1000.png,D:\MAME\roms\pv2000,zip|*.zip|bin|*.bin
+Dragon Data Dragon,dragon64 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\dragon32-64.png,D:\MAME\roms\dragon64,zip|*.zip|bin|*.bin
+Interton VC 4000,vc4000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\VC4000.jpg,D:\MAME\roms\vc4000,zip|*.zip|bin|*.bin
+Lviv PC-01,lviv -cass ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\lviv.png,D:\MAME\roms\lviv,zip|*.zip|lvX|*.lv*
+Mattel Aquarius,aquarius -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\Aquarius.png,D:\MAME\roms\aquarius_cart,zip|*.zip|bin|*.bin
+Philips VG 5000,vg5k -cass ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\vg5k,zip|*.zip|k7|*.k7
+VM Labs NUON,n501 -cart ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\n501,zip|*.zip|iso|*.iso|cd|*.cd
+Sega VMU,svmu -quik ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\svmu.png,D:\MAME\roms\svmu,zip|*.zip|vms|*.vms
+APF M-1000,apfm1000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\apf_mp1000.png,D:\MAME\roms\apfm1000,zip|*.zip|bin|*.bin
+Socrates,Socrates -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\socrates.png,D:\MAME\roms\socrates,zip|*.zip|u1|*.u1
+Nintendo 3DS,${RomName},D:\RetroBat\emulators\citra,citra-qt.exe,Null,D:\Arcade\collections\Nintendo 3DS\roms,zip|*.zip|7z|*.7z|3ds|*.3ds
+
