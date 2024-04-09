@@ -57,12 +57,41 @@ Public Class CHLOEMain
     Private Sub CHLOEMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         REM CHLOE_Systems.csv
         REM 1-System Name	2-Arguments	3-Emulator path	4-Emulator EXE	5-System Image 6-ROM Path	7-File Mask(s)
+        Dim SysfilePath = Path.Combine(Application.StartupPath, "CHLOE_Systems.csv")
+        If File.Exists(SysfilePath) Then
 
-        If File.Exists("D:\CHLOE\CHLOE_Systems.csv") Then
-            Dim FileReader As String() = File.ReadAllLines("D:\CHLOE\CHLOE_Systems.csv")
+        Else
+            ' Create the CSV file and populate it with the provided values
+            Dim lines As New List(Of String)()
 
-            ' Initialize My.MyApplication.SystemInfo array with dimensions matching the CSV file
-            ReDim Preserve My.MyApplication.SystemInfo(FileReader.Length - 1, 7)
+            ' Add the header line
+            lines.Add("System Name,Arguments,Emu Path,Emu EXE,System Image,Rom Path,File Mask(s)")
+
+            ' Add the data lines
+            lines.Add("Casio Loopy,casloopy -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\CassioLoopy.png,D:\MAME\roms\casloopy,zip|*.zip|bin|*.bin")
+            lines.Add("Aamber Pegasus,pegasus -rom1 ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\pegasus.png,D:\MAME\roms\pegasus,zip|*.zip|bin|*.bin")
+            lines.Add("APF Imagination Machine,apfimag -cart basic -cass ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\apf_mp1000.png,D:\MAME\roms\apfimag_cass,zip|*.zip|wav|*.wav")
+            lines.Add("Apogee BK-01,apogee -cass ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\apogee,zip|*.zip|rka|*.rka")
+            lines.Add("Casio PV-2000,pv2000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\pv1000.png,D:\MAME\roms\pv2000,zip|*.zip|bin|*.bin")
+            lines.Add("Dragon Data Dragon,dragon64 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\dragon32-64.png,D:\MAME\roms\dragon64,zip|*.zip|bin|*.bin")
+            lines.Add("Interton VC 4000,vc4000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\VC4000.jpg,D:\MAME\roms\vc4000,zip|*.zip|bin|*.bin")
+            lines.Add("Lviv PC-01,lviv -cass ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\lviv.png,D:\MAME\roms\lviv,zip|*.zip|lvX|*.lv*")
+            lines.Add("Mattel Aquarius,aquarius -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\Aquarius.png,D:\MAME\roms\aquarius_cart,zip|*.zip|bin|*.bin")
+            lines.Add("Philips VG 5000,vg5k -cass ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\vg5k,zip|*.zip|k7|*.k7")
+            lines.Add("VM Labs NUON,n501 -cart ${RomName},D:\MAME,mame.exe,Null,D:\MAME\roms\n501,zip|*.zip|iso|*.iso|cd|*.cd")
+            lines.Add("Sega VMU,svmu -quik ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\svmu.png,D:\MAME\roms\svmu,zip|*.zip|vms|*.vms")
+            lines.Add("APF M-1000,apfm1000 -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\apf_mp1000.png,D:\MAME\roms\apfm1000,zip|*.zip|bin|*.bin")
+            lines.Add("Socrates,Socrates -cart ${RomName},D:\MAME,mame.exe,D:\CHLOE\Images\socrates.png,D:\MAME\roms\socrates,zip|*.zip|u1|*.u1")
+            lines.Add("Nintendo 3DS,${RomName},D:\RetroBat\emulators\citra,citra-qt.exe,Null,D:\Arcade\collections\Nintendo 3DS\roms,zip|*.zip|7z|*.7z|3ds|*.3ds")
+
+            ' Write the lines to the CSV file
+            File.WriteAllLines(SysfilePath, lines)
+
+
+        End If
+        Dim FileReader As String() = File.ReadAllLines(SysfilePath)
+        ' Initialize My.MyApplication.SystemInfo array with dimensions matching the CSV file
+        ReDim Preserve My.MyApplication.SystemInfo(FileReader.Length - 1, 7)
 
             ' Populate header row
             Dim headerRow = FileReader(0).Split(","c)
@@ -82,7 +111,7 @@ Public Class CHLOEMain
             For i As Integer = 1 To FileReader.Length - 1 ' Start from 1 to skip header row
                 SystemPicker.Items.Add(My.MyApplication.SystemInfo(i, 0))
             Next
-        End If
+
     End Sub
 
 

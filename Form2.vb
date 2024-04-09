@@ -46,9 +46,10 @@ Public Class CSVEditorForm
     End Sub
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        Dim SysfilePath = Path.Combine(Application.StartupPath, "CHLOE_Systems.csv")
         Try
             ' Save changes to the CSV file
-            Using writer As New StreamWriter("D:\CHLOE\CHLOE_Systems.csv")
+            Using writer As New StreamWriter(SysfilePath)
                 ' Write the header row
                 Dim headerRow As New List(Of String)
                 For Each column As DataGridViewColumn In DataGridView1.Columns
@@ -71,8 +72,8 @@ Public Class CSVEditorForm
             End Using
 
             ' Clear and repopulate the array from the newly saved CSV file
-            If File.Exists("D:\CHLOE\CHLOE_Systems.csv") Then
-                Dim FileReader As String() = File.ReadAllLines("D:\CHLOE\CHLOE_Systems.csv")
+            If File.Exists(SysfilePath) Then
+                Dim FileReader As String() = File.ReadAllLines(SysfilePath)
 
                 ' Clear the array and reallocate memory
                 ReDim My.MyApplication.SystemInfo(FileReader.Length - 2, 7)
