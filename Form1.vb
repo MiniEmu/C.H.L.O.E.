@@ -156,7 +156,7 @@ Public Class CHLOEMain
         Dim AudiofilePath = Application.StartupPath & "Media\Audio\" & selectedSystem & ".wav"
         If File.Exists(AudiofilePath) Then
         Else
-            AudiofilePath = Application.StartupPath & "Media\Audio\mario-herewego.wav"
+            AudiofilePath = Application.StartupPath & "Media\Audio\default.wav"
         End If
         If File.Exists(AudiofilePath) Then
             Try
