@@ -1,5 +1,6 @@
 ﻿Imports System.IO
-
+Imports System.Numerics
+Imports System.Media
 Public Class CHLOEMain
     REM   Public My.MyApplication.SystemInfo(,) As String
     Public selectedSystem As String
@@ -93,29 +94,30 @@ Public Class CHLOEMain
         ' Initialize My.MyApplication.SystemInfo array with dimensions matching the CSV file
         ReDim Preserve My.MyApplication.SystemInfo(FileReader.Length - 1, 7)
 
-            ' Populate header row
-            Dim headerRow = FileReader(0).Split(","c)
-            For j As Integer = 0 To headerRow.Length - 1
-                My.MyApplication.SystemInfo(0, j) = headerRow(j).Trim()
-            Next
+        ' Populate header row
+        Dim headerRow = FileReader(0).Split(","c)
+        For j As Integer = 0 To headerRow.Length - 1
+            My.MyApplication.SystemInfo(0, j) = headerRow(j).Trim()
+        Next
 
-            ' Populate remaining rows
-            For i As Integer = 1 To FileReader.Length - 1
-                Dim FileLine() = FileReader(i).Split(","c)
-                For j As Integer = 0 To FileLine.Length - 1
-                    My.MyApplication.SystemInfo(i, j) = FileLine(j).Trim()
-                Next
+        ' Populate remaining rows
+        For i As Integer = 1 To FileReader.Length - 1
+            Dim FileLine() = FileReader(i).Split(","c)
+            For j As Integer = 0 To FileLine.Length - 1
+                My.MyApplication.SystemInfo(i, j) = FileLine(j).Trim()
             Next
+        Next
 
-            ' Populate ComboBox with System Names
-            For i As Integer = 1 To FileReader.Length - 1 ' Start from 1 to skip header row
-                SystemPicker.Items.Add(My.MyApplication.SystemInfo(i, 0))
-            Next
 
+        ' Populate ComboBox with System Names
+        For i As Integer = 1 To FileReader.Length - 1 ' Start from 1 to skip header row
+            SystemPicker.Items.Add(My.MyApplication.SystemInfo(i, 0))
+        Next
     End Sub
 
 
     Private Sub SystemPicker_SelectedIndexChanged(sender As Object, e As EventArgs) Handles SystemPicker.SelectedIndexChanged
+
         ' Get the selected system name from the ComboBox
         selectedSystem = SystemPicker.SelectedItem.ToString()
         ' Variable to store the index of the selected system
@@ -126,6 +128,7 @@ Public Class CHLOEMain
         For i As Integer = 1 To My.MyApplication.SystemInfo.GetLength(0) - 1 ' Start from 1 to skip header row
             If My.MyApplication.SystemInfo(i, 0) = selectedSystem Then
                 ' Store the index of the selected system
+
                 selectedIndex = i
                 ' Populate Textboxes with values from the corresponding row
                 EmuArgs.Text = My.MyApplication.SystemInfo(i, 1)
@@ -148,6 +151,26 @@ Public Class CHLOEMain
                 SysImage.Image = Nothing
             End If
         End If
+        Dim player As SoundPlayer
+        player = New SoundPlayer()
+        Dim AudiofilePath = Application.StartupPath & "Media\Audio\" & selectedSystem & ".wav"
+        If File.Exists(AudiofilePath) Then
+        Else
+            AudiofilePath = Application.StartupPath & "Media\Audio\mario-herewego.wav"
+        End If
+        If File.Exists(AudiofilePath) Then
+            Try
+                ' Load the audio file
+                player.SoundLocation = AudiofilePath
+
+                ' Play the audio
+                If SystemSoundOn.Checked = True Then
+                    player.Play()
+                End If
+            Catch ex As Exception
+
+            End Try
+        End If
         SelectedRom.Text = ".........."
         GetFileList.Enabled = True
         LaunchButton.Enabled = False
@@ -157,5 +180,32 @@ Public Class CHLOEMain
         ' Create and show the CSV editor form
         Dim editorForm As New CSVEditorForm()
         editorForm.ShowDialog()
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub SystemConfigToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SystemConfigToolStripMenuItem.Click
+        Dim helpMessage As String = "Welcome to the System Configuration!" & vbCrLf &
+                            "---------------------------------------" & vbCrLf &
+                            "This section allows you to configure various system settings for different emulator systems." & vbCrLf &
+                            "Here are some tips to get started:" & vbCrLf &
+                            vbCrLf &
+                            "- Tip 1: Select a system from the dropdown menu to view its details." & vbCrLf &
+                            "- Tip 2: Use the 'Edit Systems' button to edit the system configurations." & vbCrLf &
+                            "- Tip 3: Ensure the paths to emulators and ROMs are correctly set. Incorrect paths may result in errors when launching the emulator." & vbCrLf &
+                            "- Tip 4: The 'System Name' field represents the name of the emulator system. This is the name that will be displayed in the application." & vbCrLf &
+                            "- Tip 5: The 'Arguments' field specifies any command-line arguments needed to launch the emulator with a specific ROM file. This field may contain placeholders for the ROM filename ${RomName} or other parameters." & vbCrLf &
+                            "- Tip 6: The 'Emulator Path' field should contain the path to the directory where the emulator executable is located." & vbCrLf &
+                            "- Tip 7: The 'Emulator EXE' field specifies the filename of the emulator executable. This is the executable file that will be launched to run the emulator." & vbCrLf &
+                            "- Tip 8: The 'System Image' field is optional and can be used to specify the path to an image representing the system, such as a logo or screenshot." & vbCrLf &
+                            "- Tip 9: The 'ROM Path' field should contain the path to the directory where ROM files for the system are located." & vbCrLf &
+                            "- Tip 10: The 'File Mask(s)' field specifies the file extensions or patterns used to filter the ROM files. Multiple patterns can be specified, separated by '|', in the format 'display text|pattern|display text|pattern'. For example zip|*.zip|7z|*.7z|3ds|*.3ds" & vbCrLf &
+                            vbCrLf
+
+
+
+        MessageBox.Show(helpMessage, "Help", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Class
